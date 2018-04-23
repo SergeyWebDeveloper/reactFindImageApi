@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {Fragment,PureComponent} from 'react';
 import TextField from 'material-ui/TextField';
 import axios from 'axios';
 
@@ -31,7 +31,7 @@ export class Search extends PureComponent {
 
 	render() {
 		return (
-			<div>
+			<Fragment>
 				<TextField
 					fullWidth={true}
 					floatingLabelText='Введите название'
@@ -41,7 +41,7 @@ export class Search extends PureComponent {
 					visibleImage={this.state.amountImage}
 					handleChangeSelect={this.handleChangeVisibleImage}
 				/>
-			</div>
+			</Fragment>
 		)
 	}
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import AppBar from 'material-ui/AppBar';
-import {Search} from './Search';
+
 
 export const Header = (props) =>{
 	return(
@@ -9,7 +9,6 @@ export const Header = (props) =>{
 			<AppBar
 				title={props.title}
 			/>
-			<Search/>
 		</header>
 	)
 };

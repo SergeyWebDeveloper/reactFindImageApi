@@ -1,6 +1,7 @@
 import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import PropTypes from 'prop-types';
 
 export const SelectVisibleImage = ({visibleImage,handleChangeSelect}) => {
 	return(
@@ -16,4 +17,9 @@ export const SelectVisibleImage = ({visibleImage,handleChangeSelect}) => {
 			<MenuItem value={30} primaryText="30" />
 		</SelectField>
 	)
+};
+
+SelectVisibleImage.propTypes = {
+	visibleImage: PropTypes.number,
+	handleChangeSelect: PropTypes.func
 };
