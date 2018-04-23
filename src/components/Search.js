@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import axios from 'axios';
 
 import {SelectVisibleImage} from './SelectVisibleFoto';
+import {RenderImages} from './RenderImages';
 
 export class Search extends PureComponent {
 	state = {
@@ -41,6 +42,7 @@ export class Search extends PureComponent {
 					visibleImage={this.state.amountImage}
 					handleChangeSelect={this.handleChangeVisibleImage}
 				/>
+				<RenderImages images={this.state.images} />
 			</Fragment>
 		)
 	}
