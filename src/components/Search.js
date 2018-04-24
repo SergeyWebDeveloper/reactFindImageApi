@@ -1,29 +1,39 @@
-import React, {Fragment,PureComponent} from 'react';
+import React, {Fragment, PureComponent} from 'react';
 import TextField from 'material-ui/TextField';
-import axios from 'axios';
 
 import {SelectVisibleImage} from './SelectVisibleFoto';
 import {RenderImages} from './RenderImages';
+import {Pagination} from './Pagination';
+import {callAPI} from '../api';
 
 export class Search extends PureComponent {
 	state = {
 		search: '',
-		keyAPI: '8771405-07c286bc5c0e1192d6878ae2e',
-		urlAPI: 'https://pixabay.com/api/',
 		images: [],
-		amountImage: 15
+		amountImage: 15,
+		totalHits: null,
+		page: 1
 	};
+
+	requestCallApi = (search,amountImage,page) => {
+		callAPI(search, amountImage,page)
+			.then(res => this.setState({
+				images: res.data.hits,
+				totalHits: res.data.totalHits
+			}))
+			.catch(err => console.error(err));
+	};
+
+
 
 	handleChangeSearchInput = (e, value) => {
 		this.setState({
 			search: value
 		}, () => {
-			if(value.trim()===''){
+			if (value.trim() === '') {
 				return this.setState({images: []});
 			}
-			axios.get(`${this.state.urlAPI}?key=${this.state.keyAPI}&q=${this.state.search}&image_type=photo&per_page=${this.state.amountImage}&safesearch=true`)
-				.then(res => this.setState({images: res.data.hits}))
-				.catch(err => console.error(err));
+			this.requestCallApi(this.state.search, this.state.amountImage,this.state.page);
 		})
 	};
 
@@ -31,6 +41,13 @@ export class Search extends PureComponent {
 		this.setState({
 			amountImage: value
 		})
+	};
+
+	handlePagination = page => {
+		if(this.state.page!==page){
+			this.setState({page});
+			this.requestCallApi(this.state.search, this.state.amountImage,page);
+		}
 	};
 
 	render() {
@@ -45,7 +62,18 @@ export class Search extends PureComponent {
 					visibleImage={this.state.amountImage}
 					handleChangeSelect={this.handleChangeVisibleImage}
 				/>
-				<RenderImages images={this.state.images} />
+				<RenderImages
+					images={this.state.images}
+				/>
+				{
+					this.state.images.length ?
+						<Pagination
+						totalHits={this.state.totalHits}
+						amountImage={this.state.amountImage}
+						onHandlePage={this.handlePagination}
+					/>
+						: null
+				}
 			</Fragment>
 		)
 	}

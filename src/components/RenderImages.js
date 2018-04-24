@@ -1,18 +1,19 @@
-import React, {Component, Fragment} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import {GridList} from 'material-ui/GridList';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import _ from 'lodash';
 
 
 import {RenderImageItem} from './RenderImageItem';
 
-export class RenderImages extends Component {
+export class RenderImages extends PureComponent {
 	state = {
 		open: false,
 		imagePopup: null,
 		tagImage: null
 	};
-	handleOpen = (pathImg,tag) => {
+	handleOpen = (pathImg, tag) => {
 		this.setState({
 			open: true,
 			imagePopup: pathImg,
@@ -22,17 +23,19 @@ export class RenderImages extends Component {
 	handleClose = () => {
 		this.setState({open: false});
 	};
+
 	render() {
 		const {images} = this.props;
 		const actions = [
-			<FlatButton label="Закрыть" primary={true} onClick={this.handleClose} />
+			<FlatButton label="Закрыть" primary={true} onClick={this.handleClose}/>
 		];
 		return (
 			<Fragment>
 				<GridList cols={3}>
-					{images.map((item) => {
+					{_.map(images, (item) => {
 						return <RenderImageItem handleOpenModalWindow={this.handleOpen} key={item.id} info={item}/>
-					})}
+					})
+					}
 				</GridList>
 				<Dialog
 					actions={actions}
