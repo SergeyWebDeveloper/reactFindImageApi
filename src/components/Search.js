@@ -18,7 +18,10 @@ export class Search extends PureComponent {
 		this.setState({
 			search: value
 		}, () => {
-			axios.get(`${this.state.urlAPI}?key=${this.state.keyAPI}&q=${this.state.search}&per_page=${this.state.amountImage}`)
+			if(value.trim()===''){
+				return this.setState({images: []});
+			}
+			axios.get(`${this.state.urlAPI}?key=${this.state.keyAPI}&q=${this.state.search}&image_type=photo&per_page=${this.state.amountImage}&safesearch=true`)
 				.then(res => this.setState({images: res.data.hits}))
 				.catch(err => console.error(err));
 		})
