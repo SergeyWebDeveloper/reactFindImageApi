@@ -1,12 +1,9 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import RaisedButton from 'material-ui/RaisedButton';
 
-export class Pagination extends PureComponent {
-	state = {
-		activePage: 1
-	};
+export class Pagination extends Component {
 	handlePage = (e) => {
 		const number = Number(e.target.innerText);
 		this.props.onHandlePage(number);
@@ -15,7 +12,7 @@ export class Pagination extends PureComponent {
 		});
 	};
 	renderBreadCrumbsPage = (pages) => {
-		const countPage = _.range(1, pages);
+		const countPage = _.range(1, Number(pages));
 		return (
 			countPage.map(page => {
 				return (
@@ -24,7 +21,7 @@ export class Pagination extends PureComponent {
 						key={page}
 						label={page}
 						primary={true}
-						disabled={page===this.state.activePage&&true}
+						disabled={page===this.props.activePage&&true}
 						onClick={this.handlePage}
 					/>
 				)
@@ -49,4 +46,5 @@ Pagination.propTypes = {
 	onHandlePage: PropTypes.func,
 	totalHits: PropTypes.number,
 	amountImage: PropTypes.number,
+	activePage: PropTypes.number
 };

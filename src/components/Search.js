@@ -11,12 +11,12 @@ export class Search extends PureComponent {
 		search: '',
 		images: [],
 		amountImage: 15,
-		totalHits: null,
+		totalHits: 1,
 		page: 1
 	};
 
-	requestCallApi = (search,amountImage,page) => {
-		callAPI(search, amountImage,page)
+	requestCallApi = (search, amountImage, page) => {
+		callAPI(search, amountImage, page)
 			.then(res => this.setState({
 				images: res.data.hits,
 				totalHits: res.data.totalHits
@@ -25,15 +25,15 @@ export class Search extends PureComponent {
 	};
 
 
-
 	handleChangeSearchInput = (e, value) => {
 		this.setState({
-			search: value
+			search: value,
+			page: 1
 		}, () => {
 			if (value.trim() === '') {
 				return this.setState({images: []});
 			}
-			this.requestCallApi(this.state.search, this.state.amountImage,this.state.page);
+			this.requestCallApi(this.state.search, this.state.amountImage, this.state.page);
 		})
 	};
 
@@ -44,9 +44,9 @@ export class Search extends PureComponent {
 	};
 
 	handlePagination = page => {
-		if(this.state.page!==page){
+		if (this.state.page !== page) {
 			this.setState({page});
-			this.requestCallApi(this.state.search, this.state.amountImage,page);
+			this.requestCallApi(this.state.search, this.state.amountImage, page);
 		}
 	};
 
@@ -68,10 +68,11 @@ export class Search extends PureComponent {
 				{
 					this.state.images.length ?
 						<Pagination
-						totalHits={this.state.totalHits}
-						amountImage={this.state.amountImage}
-						onHandlePage={this.handlePagination}
-					/>
+							totalHits={this.state.totalHits}
+							amountImage={this.state.amountImage}
+							onHandlePage={this.handlePagination}
+							activePage={this.state.page}
+						/>
 						: null
 				}
 			</Fragment>
